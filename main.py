@@ -1,11 +1,16 @@
+# pylint: disable=missing-class-docstring, missing-function-docstring
+
 from typing import Literal, TypedDict
 
 from httpx import get, post
 from streamlit import (
+    button,
     chat_input,
     chat_message,
     markdown,
+    rerun,
     session_state,  # type: ignore
+    sidebar,
     title,
     write,
 )
@@ -21,34 +26,64 @@ class Message(TypedDict):
 
 
 class SessionState(TypedDict):
-    messages: list[Message]
+    chats: dict[int, list[Message]]
+    active_chat_tab: int
 
 
-def generate(query: Query) -> list[Message]:
-    return post("http://localhost:5000/api/v1/1/query", json=query, timeout=None).json()['messages']
+def generate(query: Query, chat_id: int) -> list[Message]:
+    return post(f'http://localhost:5000/api/v1/{chat_id}/query', json=query, timeout=None).json()['messages']
 
-
-get("http://localhost:5000/api/v1/1/clear_chat")
-
-title("Examplify")
 
 session_state: SessionState
 
-if "messages" not in session_state: # type: ignore
-    session_state['messages'] = []
+if 'chats' not in session_state:
+    session_state['chats'] = { 1: [] }
 
-for message in session_state['messages']:
-    with chat_message(message["role"]):
-        markdown(message["content"])
+if 'active_chat_tab' not in session_state:
+    session_state['active_chat_tab'] = 1
 
-if prompt := chat_input("What is up?"):
-    session_state['messages'].append({ "content": prompt, "role": "user" })
+chats: dict[int, list[Message]] = session_state['chats']
+active_chat_tab = session_state['active_chat_tab']
+messages = chats[active_chat_tab]
 
-    with chat_message("user"):
+title('Examplify')
+
+with sidebar:
+    title('Chats')
+
+    for chat_tab in chats:
+        if button(str(chat_tab), key=f'chat_tab_{chat_tab}', use_container_width=True):
+            session_state['active_chat_tab'] = chat_tab
+            rerun()
+
+    if button('＋', key=f'add_{active_chat_tab}', use_container_width=True):
+        chats[len(chats) + 1] = []
+        active_chat_tab = len(chats)
+        rerun()
+
+    if button('Delete all', key=f'delete_all_{active_chat_tab}', type='primary', use_container_width=True):
+        get('http://localhost:5000/api/debug/delete_all')
+        chats.clear()
+        chats[1] = []
+        rerun()
+
+if button('Clear chat', key=f'clear_{active_chat_tab}'):
+    get(f'http://localhost:5000/api/v1/{active_chat_tab}/clear_chat')
+    messages.clear()
+    rerun()
+
+for message in messages:
+    with chat_message(message['role']):
+        markdown(message['content'])
+
+if prompt := chat_input('What is up?'):
+    messages.append({ 'content': prompt, 'role': 'user' })
+
+    with chat_message('user'):
         markdown(prompt)
 
-    with chat_message("assistant"):
-        response = generate({ "query": prompt })[-1]
-        write(response["content"])
+    with chat_message('assistant'):
+        response = generate({ 'query': prompt }, active_chat_tab)[-1]
+        write(response['content'])
 
-    session_state['messages'].append(response)
+    messages.append(response)
