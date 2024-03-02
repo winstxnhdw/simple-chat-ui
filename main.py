@@ -11,14 +11,15 @@ from streamlit import (
     rerun,
     session_state,  # type: ignore
     sidebar,
+    text,
     title,
-    write,
 )
 
+type Role = Literal['user', 'assistant']
 
 class Message(TypedDict):
     content: str
-    role: Literal['user', 'assistant']
+    role: Role
 
 
 class SessionState(TypedDict):
@@ -34,6 +35,22 @@ def generate(query: str, chat_id: int) -> list[Message]:
     ).json()['messages']
 
 
+def render_text(text_to_render: str, role: Role):
+    if role == 'user':
+        text(text_to_render)
+
+    else:
+        markdown(text_to_render)
+
+
+def clear_chat(chat_id: int):
+    get(f'http://localhost:5000/api/v1/{chat_id}/clear_chat')
+
+
+def delete_all():
+    get('http://localhost:5000/api/debug/delete_all')
+
+
 session_state: SessionState
 
 if 'chats' not in session_state:
@@ -45,6 +62,9 @@ if 'active_chat_tab' not in session_state:
 chats: dict[int, list[Message]] = session_state['chats']
 active_chat_tab = session_state['active_chat_tab']
 messages = chats[active_chat_tab]
+
+if not messages:
+    clear_chat(active_chat_tab)
 
 title('Examplify')
 
@@ -62,28 +82,28 @@ with sidebar:
         rerun()
 
     if button('Delete all', key=f'delete_all_{active_chat_tab}', type='primary', use_container_width=True):
-        get('http://localhost:5000/api/debug/delete_all')
+        delete_all()
         chats.clear()
         chats[1] = []
         rerun()
 
 if button('Clear chat', key=f'clear_{active_chat_tab}'):
-    get(f'http://localhost:5000/api/v1/{active_chat_tab}/clear_chat')
+    clear_chat(active_chat_tab)
     messages.clear()
     rerun()
 
 for message in messages:
     with chat_message(message['role']):
-        markdown(message['content'])
+        render_text(message['content'], message['role'])
 
 if prompt := chat_input('What is up?'):
     messages.append({ 'content': prompt, 'role': 'user' })
 
     with chat_message('user'):
-        markdown(prompt)
+        text(prompt)
 
     with chat_message('assistant'):
         response = generate(prompt, active_chat_tab)[-1]
-        write(response['content'])
+        markdown(response['content'])
 
     messages.append(response)
