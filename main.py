@@ -20,7 +20,7 @@ class Message(TypedDict):
     role: Literal['user', 'assistant']
 
 
-class SessionState:
+class SessionState(TypedDict):
     messages: list[Message]
 
 
@@ -35,13 +35,15 @@ title("Examplify")
 session_state: SessionState
 
 if "messages" not in session_state: # type: ignore
-    session_state.messages = []
+    session_state['messages'] = []
 
-for message in session_state.messages:
+for message in session_state['messages']:
     with chat_message(message["role"]):
         markdown(message["content"])
 
 if prompt := chat_input("What is up?"):
+    session_state['messages'].append({ "content": prompt, "role": "user" })
+
     with chat_message("user"):
         markdown(prompt)
 
@@ -49,4 +51,4 @@ if prompt := chat_input("What is up?"):
         response = generate({ "query": prompt })[-1]
         write(response["content"])
 
-    session_state.messages.append(response)
+    session_state['messages'].append(response)
