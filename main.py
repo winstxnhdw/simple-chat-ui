@@ -16,10 +16,6 @@ from streamlit import (
 )
 
 
-class Query(TypedDict):
-    query: str
-
-
 class Message(TypedDict):
     content: str
     role: Literal['user', 'assistant']
@@ -30,8 +26,12 @@ class SessionState(TypedDict):
     active_chat_tab: int
 
 
-def generate(query: Query, chat_id: int) -> list[Message]:
-    return post(f'http://localhost:5000/api/v1/{chat_id}/query', json=query, timeout=None).json()['messages']
+def generate(query: str, chat_id: int) -> list[Message]:
+    return post(
+        f'http://localhost:5000/api/v1/{chat_id}/query',
+        json={ 'query': query },
+        timeout=None
+    ).json()['messages']
 
 
 session_state: SessionState
@@ -83,7 +83,7 @@ if prompt := chat_input('What is up?'):
         markdown(prompt)
 
     with chat_message('assistant'):
-        response = generate({ 'query': prompt }, active_chat_tab)[-1]
+        response = generate(prompt, active_chat_tab)[-1]
         write(response['content'])
 
     messages.append(response)
