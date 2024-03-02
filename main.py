@@ -1,4 +1,4 @@
-# pylint: disable=missing-class-docstring, missing-function-docstring
+# pylint: disable=missing-class-docstring, missing-function-docstring, invalid-name
 
 from typing import Literal, TypedDict
 
@@ -7,13 +7,14 @@ from streamlit import (
     button,
     chat_input,
     chat_message,
+    file_uploader,
     markdown,
     rerun,
     session_state,  # type: ignore
     sidebar,
-    text,
     title,
 )
+from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 type Role = Literal['user', 'assistant']
 
@@ -35,9 +36,17 @@ def generate(query: str, chat_id: int) -> list[Message]:
     ).json()['messages']
 
 
+def get_image_from_text(file: UploadedFile) -> str:
+    return post(
+        'http://localhost:5000/api/debug/image_to_text',
+        files={ 'request': (file.name, file.getvalue(), file.type) },
+        timeout=None
+    ).text
+
+
 def render_text(text_to_render: str, role: Role):
     if role == 'user':
-        text(text_to_render)
+        markdown(text_to_render)
 
     else:
         markdown(text_to_render)
@@ -96,14 +105,19 @@ for message in messages:
     with chat_message(message['role']):
         render_text(message['content'], message['role'])
 
+image_text = ''
+
+if document := file_uploader('Upload an image', type=['png', 'jpg', 'jpeg']):
+    image_text = get_image_from_text(document)
+
 if prompt := chat_input('What is up?'):
+    prompt = f'{prompt}\n\n{image_text}'
     messages.append({ 'content': prompt, 'role': 'user' })
 
     with chat_message('user'):
-        text(prompt)
+        markdown(prompt)
 
     with chat_message('assistant'):
         response = generate(prompt, active_chat_tab)[-1]
         markdown(response['content'])
-
-    messages.append(response)
+        messages.append(response)
