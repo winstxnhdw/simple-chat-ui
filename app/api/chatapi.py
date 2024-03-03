@@ -10,6 +10,20 @@ class ChatAPI(Protocol):
     Summary
     -------
     a generic chat API protocol
+
+    Methods
+    -------
+    query(chat_id: int, query: str) -> list[Message]
+        query the chat API
+
+    image_to_text(file: UploadedFile) -> str
+        convert an image to text
+
+    clear_chat(chat_id: int)
+        clear a specific chat
+
+    delete_all_chats()
+        delete all chats
     """
     def __init__(self, base_url: str): ...
 
