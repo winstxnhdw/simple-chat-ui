@@ -16,6 +16,6 @@ def run():
     if 'current_chat' not in session_state:
         session_state['current_chat'] = 1
 
-    with Examplify('https://localhost') as api:
+    with Examplify('https://localhost/api') as api:
         render_chat(api)
         render_sidebar(api)

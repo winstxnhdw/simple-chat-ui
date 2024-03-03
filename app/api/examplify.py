@@ -45,7 +45,7 @@ class Examplify(ChatAPI):
         list[Message]: the messages returned
         """
         request = self.client.post(
-            f'{self.base_url}/api/v1/{chat_id}/query',
+            f'{self.base_url}/v1/{chat_id}/query',
             json={ 'query': query },
             timeout=None
         )
@@ -68,7 +68,7 @@ class Examplify(ChatAPI):
         text (str): the text in the image
         """
         request = self.client.post(
-            f'{self.base_url}/api/debug/image_to_text',
+            f'{self.base_url}/debug/image_to_text',
             files={ 'request': (file.name, file.getvalue(), file.type) },
             timeout=None
         )
@@ -86,7 +86,7 @@ class Examplify(ChatAPI):
         ----------
         chat_id (int): the chat ID
         """
-        self.client.delete(f'{self.base_url}/api/v1/{chat_id}/clear_chat')
+        self.client.delete(f'{self.base_url}/v1/{chat_id}/clear_chat')
 
 
     def delete_all_chats(self):
@@ -95,4 +95,4 @@ class Examplify(ChatAPI):
         -------
         delete all chats
         """
-        self.client.delete(f'{self.base_url}/api/debug/delete_all')
+        self.client.delete(f'{self.base_url}/debug/delete_all')
