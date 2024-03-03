@@ -1,6 +1,6 @@
 from streamlit import session_state
 
-from app.api.examplify import Examplify
+from app.api import Examplify
 from app.components import render_chat, render_sidebar
 
 
