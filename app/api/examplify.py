@@ -11,7 +11,7 @@ class Examplify(ChatAPI):
     -------
     the Examplify chat API
     """
-    __slots__ = ('client', 'base_url')
+    __slots__ = 'client', 'base_url'
 
     def __init__(self, base_url: str):
 
