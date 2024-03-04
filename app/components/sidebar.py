@@ -10,7 +10,7 @@ from app.api import ChatAPI
 from app.types import Chats
 
 
-def render_delete_all_button(api: ChatAPI, chats: Chats, current_chat: int):
+def render_delete_all_button(api: ChatAPI, chats: Chats):
     """
     Summary
     -------
@@ -20,7 +20,6 @@ def render_delete_all_button(api: ChatAPI, chats: Chats, current_chat: int):
     ----------
     api (ChatAPI): the chat API
     chats (Chats): the chats
-    current_chat (int): the current chat
     """
     if not button('Delete all', key='delete_all_chats', type='primary', use_container_width=True):
         return
@@ -31,7 +30,7 @@ def render_delete_all_button(api: ChatAPI, chats: Chats, current_chat: int):
     rerun()
 
 
-def render_add_chat_button(chats: Chats, current_chat: int):
+def render_add_chat_button(chats: Chats):
     """
     Summary
     -------
@@ -40,13 +39,13 @@ def render_add_chat_button(chats: Chats, current_chat: int):
     Parameters
     ----------
     chats (Chats): the chats
-    current_chat (int): the current chat
     """
     if not button('＋', key='add_chat', use_container_width=True):
         return
 
-    chats[len(chats) + 1] = []
-    session_state['current_chat'] = len(chats)
+    number_of_chats = len(chats)
+    chats[number_of_chats + 1] = []
+    session_state['current_chat'] = number_of_chats
     rerun()
 
 
@@ -82,13 +81,12 @@ def render_tabs(api: ChatAPI):
     current_chat (int): the current chat
     """
     chats: Chats = session_state['chats']
-    current_chat: int = session_state['current_chat']
 
     for chat in chats:
         render_chat_tab(chat)
 
-    render_add_chat_button(chats, current_chat)
-    render_delete_all_button(api, chats, current_chat)
+    render_add_chat_button(chats)
+    render_delete_all_button(api, chats)
 
 
 def render_sidebar(api: ChatAPI):
