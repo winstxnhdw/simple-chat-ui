@@ -21,9 +21,10 @@ def render_prompt(api: ChatAPI, messages: list[Message], current_chat: int, imag
 
     Parameters
     ----------
-    api (ChatAPI): the chat API
-    messages (Message): the messages
-    current_chat (int): the current chat
+    api (ChatAPI) : the API object
+    messages (list[Message]) : the sequence of messages
+    current_chat (int) : the current chat identifier
+    image_text (str) : the text in the image
     """
     if not (prompt := chat_input('What is up?')):
         return
@@ -48,11 +49,11 @@ def handle_document_upload(api: ChatAPI) -> str:
 
     Parameters
     ----------
-    api (ChatAPI): the chat API
+    api (ChatAPI) : the chat API
 
     Returns
     -------
-    image_text (str): the image text
+    image_text (str) : the image text
     """
     return (
         api.image_to_text(document)
@@ -69,10 +70,11 @@ def render_clear_chat_button(api: ChatAPI, chats: Chats, current_chat: int):
 
     Parameters
     ----------
-    api (ChatAPI): the chat API
-    chats (Chats): the chats
+    api (ChatAPI) : the API object
+    chats (Chats) : the sequence of all chats
+    current_chat (int) : the current chat identifier
     """
-    if not button('Clear chat', key=f'clear_{current_chat}'):
+    if not button('Clear chat', key=f'clear_chat_{current_chat}'):
         return
 
     api.clear_chat(current_chat)
@@ -88,7 +90,8 @@ def render_message(message_content: str, role: Role):
 
     Parameters
     ----------
-    message (Message): the message
+    message (Message) : the message
+    role (Role) : the message owner's role
     """
     with chat_message(role):
         if role == 'user':
@@ -106,7 +109,7 @@ def render_chat(api: ChatAPI):
 
     Parameters
     ----------
-    api (ChatAPI): the chat API
+    api (ChatAPI) : the API object
     """
     chats: Chats = session_state['chats']
     current_chat: int = session_state['current_chat']

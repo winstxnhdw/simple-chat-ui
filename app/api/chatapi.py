@@ -25,7 +25,7 @@ class ChatAPI(Protocol):
     delete_all_chats()
         delete all chats
     """
-    def __init__(self, base_url: str): ...
+    def __init__(self, base_url: str) : ...
 
 
     def query(self, chat_id: int, query: str) -> list[Message]:
@@ -36,8 +36,8 @@ class ChatAPI(Protocol):
 
         Parameters
         ----------
-        chat_id (int): the chat ID
-        query (str): the query to send
+        chat_id (int) : the chat ID
+        query (str) : the query to send
 
         Returns
         -------
@@ -54,11 +54,11 @@ class ChatAPI(Protocol):
 
         Parameters
         ----------
-        file (UploadedFile): the image file to convert
+        file (UploadedFile) : the image file to convert
 
         Returns
         -------
-        text (str): the text in the image
+        text (str) : the text in the image
         """
         ...
 
@@ -71,7 +71,7 @@ class ChatAPI(Protocol):
 
         Parameters
         ----------
-        chat_id (int): the chat ID
+        chat_id (int) : the chat ID
         """
 
 

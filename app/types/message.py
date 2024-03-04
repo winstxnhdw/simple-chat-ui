@@ -10,8 +10,8 @@ class Message(TypedDict):
 
     Attributes
     ----------
-    role (Role): the role of the message (user or assistant)
-    content (str): the content of the message
+    role (Role) : the role of the message (user or assistant)
+    content (str) : the content of the message
     """
     role: Role
     content: str

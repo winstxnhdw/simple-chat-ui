@@ -37,8 +37,8 @@ class Examplify(ChatAPI):
 
         Parameters
         ----------
-        chat_id (int): the chat ID
-        query (str): the query to send
+        chat_id (int) : the chat ID
+        query (str) : the query to send
 
         Returns
         -------
@@ -61,11 +61,11 @@ class Examplify(ChatAPI):
 
         Parameters
         ----------
-        file (UploadedFile): the image file to convert
+        file (UploadedFile) : the image file to convert
 
         Returns
         -------
-        text (str): the text in the image
+        text (str) : the text in the image
         """
         request = self.client.post(
             f'{self.base_url}/debug/image_to_text',
@@ -84,7 +84,7 @@ class Examplify(ChatAPI):
 
         Parameters
         ----------
-        chat_id (int): the chat ID
+        chat_id (int) : the chat ID
         """
         self.client.delete(f'{self.base_url}/v1/{chat_id}/clear_chat')
 

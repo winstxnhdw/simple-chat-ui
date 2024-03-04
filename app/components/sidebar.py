@@ -18,8 +18,8 @@ def render_delete_all_button(api: ChatAPI, chats: Chats):
 
     Parameters
     ----------
-    api (ChatAPI): the chat API
-    chats (Chats): the chats
+    api (ChatAPI) : the API object
+    chats (Chats) : the sequence of chats
     """
     if not button('Delete all', key='delete_all_chats', type='primary', use_container_width=True):
         return
@@ -30,7 +30,7 @@ def render_delete_all_button(api: ChatAPI, chats: Chats):
     rerun()
 
 
-def render_add_chat_button(number_of_chats: int):
+def render_add_chat_button(chats: Chats):
     """
     Summary
     -------
@@ -38,11 +38,12 @@ def render_add_chat_button(number_of_chats: int):
 
     Parameters
     ----------
-    number_of_chats (int): the number of chat tabs
+    chats (Chats) : the sequence of chats
     """
     if not button('＋', key='add_chat', use_container_width=True):
         return
 
+    number_of_chats = len(chats)
     chats[number_of_chats + 1] = []
     session_state['current_chat'] = number_of_chats
     rerun()
@@ -56,7 +57,7 @@ def render_chat_tab(chat: int):
 
     Parameters
     ----------
-    chat (int): the chats
+    chat (int) : the current chat identifier
     """
     if not button(str(chat), key=f'chat_tab_{chat}', use_container_width=True):
         return
@@ -73,14 +74,14 @@ def render_tabs(api: ChatAPI):
 
     Parameters
     ----------
-    api (ChatAPI): the chat API
+    api (ChatAPI) : the API object
     """
     chats: Chats = session_state['chats']
 
     for chat in chats:
         render_chat_tab(chat)
 
-    render_add_chat_button(len(chats))
+    render_add_chat_button(chats)
     render_delete_all_button(api, chats)
 
 
@@ -92,7 +93,7 @@ def render_sidebar(api: ChatAPI):
 
     Parameters
     ----------
-    api (ChatAPI): the chat API
+    api (ChatAPI) : the API object
     """
     with sidebar:
         title('Chats')
