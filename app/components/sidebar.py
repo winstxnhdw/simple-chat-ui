@@ -22,7 +22,7 @@ def render_delete_all_button(api: ChatAPI, chats: Chats, current_chat: int):
     chats (Chats): the chats
     current_chat (int): the current chat
     """
-    if not button('Delete all', key=f'delete_all_{current_chat}', type='primary', use_container_width=True):
+    if not button('Delete all', key='delete_all_chats', type='primary', use_container_width=True):
         return
 
     api.delete_all_chats()
@@ -42,7 +42,7 @@ def render_add_chat_button(chats: Chats, current_chat: int):
     chats (Chats): the chats
     current_chat (int): the current chat
     """
-    if not button('＋', key=f'add_{current_chat}', use_container_width=True):
+    if not button('＋', key='add_chat', use_container_width=True):
         return
 
     chats[len(chats) + 1] = []
