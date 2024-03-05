@@ -13,6 +13,26 @@ from app.api import ChatAPI
 from app.types import Chats, Message, Role
 
 
+def render_clear_chat_button(api: ChatAPI, chats: Chats, current_chat: int):
+    """
+    Summary
+    -------
+    render the clear chat button
+
+    Parameters
+    ----------
+    api (ChatAPI) : the API object
+    chats (Chats) : the sequence of all chats
+    current_chat (int) : the current chat identifier
+    """
+    if not button('Clear chat', key=f'clear_chat_{current_chat}'):
+        return
+
+    api.clear_chat(current_chat)
+    chats[current_chat].clear()
+    rerun()
+
+
 def render_prompt(api: ChatAPI, messages: list[Message], current_chat: int, image_text: str):
     """
     Summary
@@ -29,7 +49,7 @@ def render_prompt(api: ChatAPI, messages: list[Message], current_chat: int, imag
     if not (prompt := chat_input('What is up?')):
         return
 
-    prompt = f'{prompt}\n\n{image_text}'
+        prompt = f'{prompt\n\n{image_text}'
     messages.append({ 'content': prompt, 'role': 'user' })
 
     with chat_message('user'):
@@ -60,26 +80,6 @@ def handle_document_upload(api: ChatAPI) -> str:
         if (document := file_uploader('Upload an image', type=['png', 'jpg', 'jpeg']))
         else ''
     )
-
-
-def render_clear_chat_button(api: ChatAPI, chats: Chats, current_chat: int):
-    """
-    Summary
-    -------
-    render the clear chat button
-
-    Parameters
-    ----------
-    api (ChatAPI) : the API object
-    chats (Chats) : the sequence of all chats
-    current_chat (int) : the current chat identifier
-    """
-    if not button('Clear chat', key=f'clear_chat_{current_chat}'):
-        return
-
-    api.clear_chat(current_chat)
-    chats[current_chat].clear()
-    rerun()
 
 
 def render_message(message_content: str, role: Role):
