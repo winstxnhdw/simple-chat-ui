@@ -5,11 +5,11 @@ from streamlit import (
     file_uploader,
     markdown,
     rerun,
-    session_state,
     title,
 )
 
 from app.api import ChatAPI
+from app.helpers import SESSION_STATE
 from app.types import Chats, Message, Role
 
 
@@ -49,7 +49,7 @@ def render_prompt(api: ChatAPI, messages: list[Message], current_chat: int, imag
     if not (prompt := chat_input('What is up?')):
         return
 
-        prompt = f'{prompt\n\n{image_text}'
+    prompt = f'{prompt}\n\n{image_text}'
     messages.append({ 'content': prompt, 'role': 'user' })
 
     with chat_message('user'):
@@ -111,8 +111,8 @@ def render_chat(api: ChatAPI):
     ----------
     api (ChatAPI) : the API object
     """
-    chats: Chats = session_state['chats']
-    current_chat: int = session_state['current_chat']
+    chats = SESSION_STATE['chats']
+    current_chat = SESSION_STATE['current_chat']
 
     if not (messages := chats[current_chat]):
         api.clear_chat(current_chat)

@@ -1,12 +1,12 @@
 from streamlit import (
     button,
     rerun,
-    session_state,
     sidebar,
     title,
 )
 
 from app.api import ChatAPI
+from app.helpers import SESSION_STATE
 from app.types import Chats
 
 
@@ -45,7 +45,7 @@ def render_add_chat_button(chats: Chats):
 
     number_of_chats = len(chats)
     chats[number_of_chats + 1] = []
-    session_state['current_chat'] = number_of_chats
+    SESSION_STATE['current_chat'] = number_of_chats
     rerun()
 
 
@@ -62,7 +62,7 @@ def render_chat_tab(chat: int):
     if not button(str(chat), key=f'chat_tab_{chat}', use_container_width=True):
         return
 
-    session_state['current_chat'] = chat
+    SESSION_STATE['current_chat'] = chat
     rerun()
 
 
@@ -76,7 +76,7 @@ def render_tabs(api: ChatAPI):
     ----------
     api (ChatAPI) : the API object
     """
-    chats: Chats = session_state['chats']
+    chats = SESSION_STATE['chats']
 
     for chat in chats:
         render_chat_tab(chat)
