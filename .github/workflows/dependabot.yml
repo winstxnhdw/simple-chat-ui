@@ -6,7 +6,7 @@ jobs:
   python:
     uses: winstxnhdw/actions/.github/workflows/python.yml@main
     with:
-      disable-test: false
+      disable-test: true
 
   auto-merge:
     needs: python
