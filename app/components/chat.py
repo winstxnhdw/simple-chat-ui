@@ -1,6 +1,3 @@
-from time import sleep
-
-from httpx import ConnectError
 from streamlit import (
     button,
     chat_input,
@@ -117,8 +114,10 @@ def sync_chat_state(api: ChatAPI, current_chat: int, chat_messages: list[Message
     current_chat (int) : the current chat identifier
     chat_messages (list[Message]) : the sequence of messages
     """
-    if not chat_messages:
-        api.clear_chat(current_chat)
+    if chat_messages:
+        return
+
+    api.clear_chat(current_chat)
 
 
 def render_chat(api: ChatAPI):
