@@ -129,6 +129,7 @@ def render_chat(api: ChatAPI, state: SessionState):
     Parameters
     ----------
     api (ChatAPI) : the API object
+    state (SessionState) : the Streamlit session state
     """
     chats = state['chats']
     current_chat = state['current_chat']

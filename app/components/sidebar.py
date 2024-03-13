@@ -38,6 +38,7 @@ def render_add_chat_button(chats: Chats, state: SessionState):
     Parameters
     ----------
     chats (Chats) : the sequence of chats
+    state (SessionState) : the Streamlit session state
     """
     if not button('＋', key='add_chat', use_container_width=True):
         return
@@ -57,6 +58,7 @@ def render_chat_tab(chat: int, state: SessionState):
     Parameters
     ----------
     chat (int) : the current chat identifier
+    state (SessionState) : the Streamlit session state
     """
     if not button(str(chat), key=f'chat_tab_{chat}', use_container_width=True):
         return
@@ -74,6 +76,7 @@ def render_tabs(api: ChatAPI, state: SessionState):
     Parameters
     ----------
     api (ChatAPI) : the API object
+    state (SessionState) : the Streamlit session state
     """
     chats = state['chats']
 
@@ -93,6 +96,7 @@ def render_sidebar(api: ChatAPI, state: SessionState):
     Parameters
     ----------
     api (ChatAPI) : the API object
+    state (SessionState) : the Streamlit session state
     """
     with sidebar:
         title('Chats')
