@@ -12,7 +12,7 @@ from streamlit import (
 )
 
 from app.api import ChatAPI
-from app.helpers import SESSION_STATE
+from app.helpers import SESSION_STATE, try_connect
 from app.types import Chats, Message, Role
 
 
@@ -104,7 +104,8 @@ def render_message(message_content: str, role: Role):
             markdown(message_content)
 
 
-def sync_chat_state(api: ChatAPI, current_chat: int):
+@try_connect(retry_delay=1.0)
+def sync_chat_state(api: ChatAPI, current_chat: int, chat_messages: list[Message]):
     """
     Summary
     -------
@@ -114,14 +115,10 @@ def sync_chat_state(api: ChatAPI, current_chat: int):
     ----------
     api (ChatAPI) : the API object
     current_chat (int) : the current chat identifier
+    chat_messages (list[Message]) : the sequence of messages
     """
-    while True:
-        try:
-            api.clear_chat(current_chat)
-            break
-
-        except ConnectError:
-            sleep(1)
+    if not chat_messages:
+        api.clear_chat(current_chat)
 
 
 def render_chat(api: ChatAPI):
@@ -136,10 +133,7 @@ def render_chat(api: ChatAPI):
     """
     chats = SESSION_STATE['chats']
     current_chat = SESSION_STATE['current_chat']
-
-    if not (messages := chats[current_chat]):
-        sync_chat_state(api, current_chat)
-
+    sync_chat_state(api, current_chat, messages := chats[current_chat])
     title('Examplify')
 
     for message in messages:
