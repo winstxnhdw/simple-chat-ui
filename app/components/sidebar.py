@@ -6,8 +6,7 @@ from streamlit import (
 )
 
 from app.api import ChatAPI
-from app.helpers import SESSION_STATE
-from app.types import Chats
+from app.types import Chats, SessionState
 
 
 def render_delete_all_button(api: ChatAPI, chats: Chats):
@@ -30,7 +29,7 @@ def render_delete_all_button(api: ChatAPI, chats: Chats):
     rerun()
 
 
-def render_add_chat_button(chats: Chats):
+def render_add_chat_button(chats: Chats, state: SessionState):
     """
     Summary
     -------
@@ -45,11 +44,11 @@ def render_add_chat_button(chats: Chats):
 
     number_of_chats = len(chats)
     chats[number_of_chats + 1] = []
-    SESSION_STATE['current_chat'] = number_of_chats
+    state['current_chat'] = number_of_chats
     rerun()
 
 
-def render_chat_tab(chat: int):
+def render_chat_tab(chat: int, state: SessionState):
     """
     Summary
     -------
@@ -62,11 +61,11 @@ def render_chat_tab(chat: int):
     if not button(str(chat), key=f'chat_tab_{chat}', use_container_width=True):
         return
 
-    SESSION_STATE['current_chat'] = chat
+    state['current_chat'] = chat
     rerun()
 
 
-def render_tabs(api: ChatAPI):
+def render_tabs(api: ChatAPI, state: SessionState):
     """
     Summary
     -------
@@ -76,16 +75,16 @@ def render_tabs(api: ChatAPI):
     ----------
     api (ChatAPI) : the API object
     """
-    chats = SESSION_STATE['chats']
+    chats = state['chats']
 
     for chat in chats:
-        render_chat_tab(chat)
+        render_chat_tab(chat, state)
 
-    render_add_chat_button(chats)
+    render_add_chat_button(chats, state)
     render_delete_all_button(api, chats)
 
 
-def render_sidebar(api: ChatAPI):
+def render_sidebar(api: ChatAPI, state: SessionState):
     """
     Summary
     -------
@@ -97,4 +96,4 @@ def render_sidebar(api: ChatAPI):
     """
     with sidebar:
         title('Chats')
-        render_tabs(api)
+        render_tabs(api, state)

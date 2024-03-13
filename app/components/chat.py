@@ -9,8 +9,8 @@ from streamlit import (
 )
 
 from app.api import ChatAPI
-from app.helpers import SESSION_STATE, try_connect
-from app.types import Chats, Message, Role
+from app.helpers import try_connect
+from app.types import Chats, Message, Role, SessionState
 
 
 def render_clear_chat_button(api: ChatAPI, chats: Chats, current_chat: int):
@@ -120,7 +120,7 @@ def sync_chat_state(api: ChatAPI, current_chat: int, chat_messages: list[Message
     api.clear_chat(current_chat)
 
 
-def render_chat(api: ChatAPI):
+def render_chat(api: ChatAPI, state: SessionState):
     """
     Summary
     -------
@@ -130,8 +130,8 @@ def render_chat(api: ChatAPI):
     ----------
     api (ChatAPI) : the API object
     """
-    chats = SESSION_STATE['chats']
-    current_chat = SESSION_STATE['current_chat']
+    chats = state['chats']
+    current_chat = state['current_chat']
     sync_chat_state(api, current_chat, messages := chats[current_chat])
     title('Examplify')
 
