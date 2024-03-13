@@ -1,3 +1,6 @@
+from time import sleep
+
+from httpx import ConnectError
 from streamlit import (
     button,
     chat_input,
@@ -101,6 +104,26 @@ def render_message(message_content: str, role: Role):
             markdown(message_content)
 
 
+def sync_chat_state(api: ChatAPI, current_chat: int):
+    """
+    Summary
+    -------
+    poll the API connection and sync the chat state with the API
+
+    Parameters
+    ----------
+    api (ChatAPI) : the API object
+    current_chat (int) : the current chat identifier
+    """
+    while True:
+        try:
+            api.clear_chat(current_chat)
+            break
+
+        except ConnectError:
+            sleep(1)
+
+
 def render_chat(api: ChatAPI):
     """
     Summary
@@ -115,7 +138,7 @@ def render_chat(api: ChatAPI):
     current_chat = SESSION_STATE['current_chat']
 
     if not (messages := chats[current_chat]):
-        api.clear_chat(current_chat)
+        sync_chat_state(api, current_chat)
 
     title('Examplify')
 
