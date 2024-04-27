@@ -9,7 +9,7 @@ from app.api import ChatAPI
 from app.types import Chats, SessionState
 
 
-def render_delete_all_button(api: ChatAPI, chats: Chats):
+def render_delete_all_button(api: ChatAPI, chats: Chats, state: SessionState):
     """
     Summary
     -------
@@ -19,6 +19,7 @@ def render_delete_all_button(api: ChatAPI, chats: Chats):
     ----------
     api (ChatAPI) : the API object
     chats (Chats) : the sequence of chats
+    state (SessionState) : the Streamlit session state
     """
     if not button('Delete all', key='delete_all_chats', type='primary', use_container_width=True):
         return
@@ -26,6 +27,7 @@ def render_delete_all_button(api: ChatAPI, chats: Chats):
     api.delete_all_chats()
     chats.clear()
     chats[1] = []
+    state['current_chat'] = 1
     rerun()
 
 
@@ -84,7 +86,7 @@ def render_tabs(api: ChatAPI, state: SessionState):
         render_chat_tab(chat, state)
 
     render_add_chat_button(chats, state)
-    render_delete_all_button(api, chats)
+    render_delete_all_button(api, chats, state)
 
 
 def render_sidebar(api: ChatAPI, state: SessionState):
