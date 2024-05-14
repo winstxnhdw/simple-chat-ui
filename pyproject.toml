@@ -33,5 +33,5 @@ h2 = "^4.1.0"
 
 [tool.poetry.group.dev.dependencies]
 pyright = "^1.1.362"
-pylint = "^3.0.3"
+pylint = "^3.2.0"
 ruff = "^0.4.4"
