@@ -32,6 +32,6 @@ httpx = "^0.27.0"
 h2 = "^4.1.0"
 
 [tool.poetry.group.dev.dependencies]
-pyright = "^1.1.366"
+pyright = "^1.1.367"
 pylint = "^3.2.3"
 ruff = "^0.4.8"
