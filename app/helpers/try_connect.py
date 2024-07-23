@@ -1,7 +1,6 @@
 from time import sleep
 from typing import Any, Callable, TypeVar
 
-
 T = TypeVar('T')
 
 Function = Callable[..., T]

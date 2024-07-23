@@ -1,3 +1,4 @@
+from httpx import ConnectError
 from streamlit import (
     button,
     chat_input,
@@ -7,7 +8,6 @@ from streamlit import (
     rerun,
     title,
 )
-from httpx import ConnectError
 
 from app.api import ChatAPI
 from app.helpers import try_connect
