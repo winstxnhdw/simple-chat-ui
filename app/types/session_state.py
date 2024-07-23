@@ -16,5 +16,6 @@ class SessionState(TypedDict):
     chats (Chats) : the chats
     active_chat_tab (int) : the active chat tab
     """
+
     chats: Chats
     current_chat: int

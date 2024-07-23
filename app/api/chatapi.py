@@ -25,8 +25,8 @@ class ChatAPI(Protocol):
     delete_all_chats()
         delete all chats
     """
-    def __init__(self, base_url: str) : ...
 
+    def __init__(self, base_url: str): ...
 
     def query(self, chat_id: int, query: str) -> list[Message]:
         """
@@ -45,7 +45,6 @@ class ChatAPI(Protocol):
         """
         ...
 
-
     def image_to_text(self, file: UploadedFile) -> str:
         """
         Summary
@@ -62,7 +61,6 @@ class ChatAPI(Protocol):
         """
         ...
 
-
     def clear_chat(self, chat_id: int):
         """
         Summary
@@ -73,7 +71,6 @@ class ChatAPI(Protocol):
         ----------
         chat_id (int) : the chat ID
         """
-
 
     def delete_all_chats(self):
         """

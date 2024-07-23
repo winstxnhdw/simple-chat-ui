@@ -7,6 +7,7 @@ from streamlit import (
     rerun,
     title,
 )
+from httpx import ConnectError
 
 from app.api import ChatAPI
 from app.helpers import try_connect
@@ -50,7 +51,7 @@ def render_prompt(api: ChatAPI, messages: list[Message], current_chat: int, imag
         return
 
     prompt = f'{prompt}\n\n{image_text}'
-    messages.append({ 'content': prompt, 'role': 'user' })
+    messages.append({'content': prompt, 'role': 'user'})
 
     with chat_message('user'):
         markdown(prompt)
@@ -101,7 +102,7 @@ def render_message(message_content: str, role: Role):
             markdown(message_content)
 
 
-@try_connect(retry_delay=1.0)
+@try_connect(connect_exception=ConnectError, retry_delay=1.0)
 def sync_chat_state(api: ChatAPI, current_chat: int, chat_messages: list[Message]):
     """
     Summary

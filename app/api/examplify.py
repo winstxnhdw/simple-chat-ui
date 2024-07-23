@@ -11,23 +11,18 @@ class Examplify(ChatAPI):
     -------
     the Examplify chat API
     """
+
     __slots__ = 'client', 'base_url'
 
     def __init__(self, base_url: str):
-
         self.client = Client(http2=True, verify=False)
         self.base_url = base_url
 
-
     def __enter__(self):
-
         return self
 
-
     def __exit__(self, *_):
-
         self.client.close()
-
 
     def query(self, chat_id: int, query: str) -> list[Message]:
         """
@@ -44,14 +39,9 @@ class Examplify(ChatAPI):
         -------
         list[Message]: the messages returned
         """
-        request = self.client.post(
-            f'{self.base_url}/v1/{chat_id}/query',
-            json={ 'query': query },
-            timeout=None
-        )
+        request = self.client.post(f'{self.base_url}/v1/{chat_id}/query', json={'query': query}, timeout=None)
 
         return request.json()['messages']
-
 
     def image_to_text(self, file: UploadedFile) -> str:
         """
@@ -69,12 +59,11 @@ class Examplify(ChatAPI):
         """
         request = self.client.post(
             f'{self.base_url}/debug/image_to_text',
-            files={ 'request': (file.name, file.getvalue(), file.type) },
-            timeout=None
+            files={'request': (file.name, file.getvalue(), file.type)},
+            timeout=None,
         )
 
         return request.text
-
 
     def clear_chat(self, chat_id: int):
         """
@@ -87,7 +76,6 @@ class Examplify(ChatAPI):
         chat_id (int) : the chat ID
         """
         self.client.delete(f'{self.base_url}/v1/{chat_id}/clear_chat')
-
 
     def delete_all_chats(self):
         """

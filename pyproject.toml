@@ -18,12 +18,19 @@ reportUnknownVariableType = false
 reportUnknownMemberType = false
 reportMissingTypeStubs = false
 
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+quote-style = 'single'
+
 [tool.poetry]
 name = "simple-chat-ui"
 version = "0.1.0"
 description = ""
 authors = ["winstxnhdw <you@example.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"

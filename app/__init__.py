@@ -15,7 +15,7 @@ def run():
     state: SessionState = session_state  # type: ignore
 
     if 'chats' not in state:
-        state['chats'] = { 1: [] }
+        state['chats'] = {1: []}
 
     if 'current_chat' not in state:
         state['current_chat'] = 1
