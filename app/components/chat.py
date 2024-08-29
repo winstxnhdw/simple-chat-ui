@@ -1,13 +1,5 @@
 from httpx import ConnectError
-from streamlit import (
-    button,
-    chat_input,
-    chat_message,
-    file_uploader,
-    markdown,
-    rerun,
-    title,
-)
+from streamlit import button, chat_input, chat_message, file_uploader, markdown, rerun, title
 
 from app.api import ChatAPI
 from app.helpers import try_connect
