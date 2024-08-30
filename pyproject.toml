@@ -41,4 +41,4 @@ h2 = "^4.1.0"
 [tool.poetry.group.dev.dependencies]
 pyright = "^1.1.378"
 pylint = "^3.2.6"
-ruff = "^0.6.2"
+ruff = "^0.6.3"
