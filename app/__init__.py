@@ -20,6 +20,12 @@ def run():
     if 'current_chat' not in state:
         state['current_chat'] = 1
 
+    if 'store_query' not in state:
+        state['store_query'] = True
+
+    if 'search_size' not in state:
+        state['search_size'] = 0
+
     with Examplify('https://localhost/api') as api:
         render_chat(api, state)
         render_sidebar(api, state)

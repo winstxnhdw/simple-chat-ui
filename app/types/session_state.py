@@ -19,3 +19,5 @@ class SessionState(TypedDict):
 
     chats: Chats
     current_chat: int
+    store_query: bool
+    search_size: int

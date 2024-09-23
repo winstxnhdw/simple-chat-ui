@@ -1,5 +1,17 @@
 from httpx import ConnectError
-from streamlit import button, chat_input, chat_message, file_uploader, markdown, rerun, title
+from streamlit import (
+    button,
+    chat_input,
+    chat_message,
+    file_uploader,
+    markdown,
+    rerun,
+    slider,
+    tabs,
+    title,
+    toggle,
+    write_stream,
+)
 
 from app.api import ChatAPI
 from app.helpers import try_connect
@@ -26,7 +38,14 @@ def render_clear_chat_button(api: ChatAPI, chats: Chats, current_chat: int):
     rerun()
 
 
-def render_prompt(api: ChatAPI, messages: list[Message], current_chat: int, image_text: str):
+def render_prompt(
+    api: ChatAPI,
+    messages: list[Message],
+    current_chat: int,
+    image_text: str,
+    search_size: int,
+    store_query: bool,
+):
     """
     Summary
     -------
@@ -38,20 +57,22 @@ def render_prompt(api: ChatAPI, messages: list[Message], current_chat: int, imag
     messages (list[Message]) : the sequence of messages
     current_chat (int) : the current chat identifier
     image_text (str) : the text in the image
+    search_size (int) : the search size
+    store_query (bool) : whether to store the query
     """
     if not (prompt := chat_input('What is up?')):
         return
 
     prompt = f'{prompt}\n\n{image_text}'
-    messages.append({'content': prompt, 'role': 'user'})
+    messages.append({'role': 'user', 'content': prompt})
 
     with chat_message('user'):
         markdown(prompt)
 
     with chat_message('assistant'):
-        response = api.query(current_chat, prompt)[-1]
-        messages.append(response)
-        markdown(response['content'])
+        response = api.query(current_chat, prompt, search_size, store_query)
+        content: str = write_stream(response)  # type: ignore
+        messages.append({'role': 'assistant', 'content': content})
 
 
 def handle_document_upload(api: ChatAPI) -> str:
@@ -113,6 +134,45 @@ def sync_chat_state(api: ChatAPI, current_chat: int, chat_messages: list[Message
     api.clear_chat(current_chat)
 
 
+def render_chat_tab(api: ChatAPI, chats: Chats, current_chat: int, search_size: int, store_query: bool):
+    """
+    Summary
+    -------
+    render the chat tab
+
+    Parameters
+    ----------
+    api (ChatAPI) : the API object
+    chats (Chats) : the sequence of all chats
+    current_chat (int) : the current chat identifier
+    search_size (int) : the search size
+    store_query (bool) : whether to store the query
+    """
+    sync_chat_state(api, current_chat, messages := api.get_chat_history(current_chat))
+    title('Examplify')
+
+    for message in messages:
+        render_message(message['content'], message['role'])
+
+    image_text = handle_document_upload(api)
+    render_prompt(api, chats[current_chat], current_chat, image_text, search_size, store_query)
+    render_clear_chat_button(api, chats, current_chat)
+
+
+def render_settings_tab(state: SessionState):
+    """
+    Summary
+    -------
+    render the settings tab
+
+    Parameters
+    ----------
+    state (SessionState) : the Streamlit session state
+    """
+    state['store_query'] = toggle('Store query', True)
+    state['search_size'] = slider('Search size', 0, 10)
+
+
 def render_chat(api: ChatAPI, state: SessionState):
     """
     Summary
@@ -124,14 +184,10 @@ def render_chat(api: ChatAPI, state: SessionState):
     api (ChatAPI) : the API object
     state (SessionState) : the Streamlit session state
     """
-    chats = state['chats']
-    current_chat = state['current_chat']
-    sync_chat_state(api, current_chat, messages := chats[current_chat])
-    title('Examplify')
+    chat_tab, settings_tab = tabs(['Chat', 'Settings'])
 
-    for message in messages:
-        render_message(message['content'], message['role'])
+    with settings_tab:
+        render_settings_tab(state)
 
-    image_text = handle_document_upload(api)
-    render_prompt(api, chats[current_chat], current_chat, image_text)
-    render_clear_chat_button(api, chats, current_chat)
+    with chat_tab:
+        render_chat_tab(api, state['chats'], state['current_chat'], state['search_size'], state['store_query'])

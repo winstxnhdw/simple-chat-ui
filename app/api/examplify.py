@@ -1,4 +1,7 @@
+from typing import Iterator
+
 from httpx import Client
+from httpx_sse import connect_sse
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 from app.api.chatapi import ChatAPI
@@ -12,7 +15,7 @@ class Examplify(ChatAPI):
     the Examplify chat API
     """
 
-    __slots__ = 'client', 'base_url'
+    __slots__ = ('client', 'base_url')
 
     def __init__(self, base_url: str):
         self.client = Client(http2=True, verify=False)
@@ -24,63 +27,28 @@ class Examplify(ChatAPI):
     def __exit__(self, *_):
         self.client.close()
 
-    def query(self, chat_id: int, query: str) -> list[Message]:
-        """
-        Summary
-        -------
-        query the chat API
-
-        Parameters
-        ----------
-        chat_id (int) : the chat ID
-        query (str) : the query to send
-
-        Returns
-        -------
-        list[Message]: the messages returned
-        """
-        request = self.client.post(f'{self.base_url}/v1/{chat_id}/query', json={'query': query}, timeout=None)
-
+    def get_chat_history(self, chat_id: int) -> list[Message]:
+        request = self.client.get(f'{self.base_url}/v1/chats/{chat_id}/messages')
         return request.json()['messages']
 
+    def query(self, chat_id: int, query: str, search_size: int, store_query: bool) -> Iterator[str]:
+        endpoint = f'{self.base_url}/v1/chats/{chat_id}/query'
+        body = {'query': query}
+        params = {'store_query': store_query, 'search_size': search_size}
+
+        with connect_sse(self.client, 'POST', endpoint, json=body, params=params, timeout=None) as events:
+            for event in events.iter_sse():
+                yield event.data
+
     def image_to_text(self, file: UploadedFile) -> str:
-        """
-        Summary
-        -------
-        convert an image to text
+        endpoint = f'{self.base_url}/v1/files/text'
+        files = [('data', (file.name, file.getvalue(), file.type))]
 
-        Parameters
-        ----------
-        file (UploadedFile) : the image file to convert
-
-        Returns
-        -------
-        text (str) : the text in the image
-        """
-        request = self.client.post(
-            f'{self.base_url}/debug/image_to_text',
-            files={'request': (file.name, file.getvalue(), file.type)},
-            timeout=None,
-        )
-
-        return request.text
+        with connect_sse(self.client, 'POST', endpoint, files=files, timeout=None) as events:
+            return ''.join(event.data for event in events.iter_sse())
 
     def clear_chat(self, chat_id: int):
-        """
-        Summary
-        -------
-        clear a specific chat
-
-        Parameters
-        ----------
-        chat_id (int) : the chat ID
-        """
-        self.client.delete(f'{self.base_url}/v1/{chat_id}/clear_chat')
+        self.client.delete(f'{self.base_url}/v1/chats/{chat_id}/messages', params={'recreate': True})
 
     def delete_all_chats(self):
-        """
-        Summary
-        -------
-        delete all chats
-        """
-        self.client.delete(f'{self.base_url}/debug/delete_all')
+        self.client.delete(f'{self.base_url}/debug/redis')

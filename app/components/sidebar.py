@@ -1,9 +1,4 @@
-from streamlit import (
-    button,
-    rerun,
-    sidebar,
-    title,
-)
+from streamlit import button, rerun, sidebar, title, toggle
 
 from app.api import ChatAPI
 from app.types import Chats, SessionState

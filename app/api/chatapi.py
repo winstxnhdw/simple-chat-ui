@@ -1,4 +1,4 @@
-from typing import Protocol
+from typing import Iterator, Protocol
 
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
@@ -28,7 +28,23 @@ class ChatAPI(Protocol):
 
     def __init__(self, base_url: str): ...
 
-    def query(self, chat_id: int, query: str) -> list[Message]:
+    def get_chat_history(self, chat_id: int) -> list[Message]:
+        """
+        Summary
+        -------
+        get the chat history
+
+        Parameters
+        ----------
+        chat_id (int) : the chat ID
+
+        Returns
+        -------
+        list[Message] : the chat history
+        """
+        ...
+
+    def query(self, chat_id: int, query: str, search_size: int, store_query: bool) -> Iterator[str]:
         """
         Summary
         -------
@@ -38,6 +54,8 @@ class ChatAPI(Protocol):
         ----------
         chat_id (int) : the chat ID
         query (str) : the query to send
+        search_size (int) : the search size
+        store_query (bool) : whether to store the query
 
         Returns
         -------
