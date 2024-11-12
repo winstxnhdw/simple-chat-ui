@@ -1223,13 +1223,13 @@ files = [
 
 [[package]]
 name = "streamlit"
-version = "1.40.0"
+version = "1.40.1"
 description = "A faster way to build and share data apps"
 optional = false
 python-versions = "!=3.9.7,>=3.8"
 files = [
-    {file = "streamlit-1.40.0-py2.py3-none-any.whl", hash = "sha256:05d22bc111d682ef4deaf7ededeec2305051b99dd6d7d564788705e4ce6f8029"},
-    {file = "streamlit-1.40.0.tar.gz", hash = "sha256:6e4d3b90c4934951f97d790daf7953df5beb2916e447ac9f78e1b76a9ef83327"},
+    {file = "streamlit-1.40.1-py2.py3-none-any.whl", hash = "sha256:b9d7a317a0cc88edd7857c7e07dde9cf95647d3ae51cbfa8a3db82fbb8a2990d"},
+    {file = "streamlit-1.40.1.tar.gz", hash = "sha256:1f2b09f04b6ad366a2c7b4d48104697d1c8bc33f48bdf7ed939cc04c12d3aec6"},
 ]
 
 [package.dependencies]
@@ -1251,7 +1251,7 @@ tenacity = ">=8.1.0,<10"
 toml = ">=0.10.1,<2"
 tornado = ">=6.0.3,<7"
 typing-extensions = ">=4.3.0,<5"
-watchdog = {version = ">=2.1.5,<6", markers = "platform_system != \"Darwin\""}
+watchdog = {version = ">=2.1.5,<7", markers = "platform_system != \"Darwin\""}
 
 [package.extras]
 snowflake = ["snowflake-connector-python (>=2.8.0)", "snowflake-snowpark-python[modin] (>=1.17.0)"]
@@ -1406,4 +1406,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "b4ff22157a3d6e865ffd57d138978a777deeb5a466868cf0f16c461eb940bc44"
+content-hash = "45e6aa5a2bad2ab7e97dab29882279d2772993eea2f6f4203b1bf90c7f5f7737"
