@@ -35,7 +35,7 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
-streamlit = "^1.43.1"
+streamlit = "^1.43.2"
 httpx = "^0.28.1"
 h2 = "^4.2.0"
 httpx-sse = "^0.4.0"
