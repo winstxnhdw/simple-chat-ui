@@ -43,4 +43,4 @@ httpx-sse = "^0.4.0"
 [tool.poetry.group.dev.dependencies]
 pyright = "^1.1.398"
 pylint = "^3.3.6"
-ruff = "^0.11.2"
+ruff = "^0.11.3"
