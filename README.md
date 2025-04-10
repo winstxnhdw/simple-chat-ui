@@ -11,14 +11,8 @@ A simple chat UI for [Examplify](https://github.com/winstxnhdw/Examplify), built
     />
 </div>
 
-## Installation
-
-```bash
-poetry install
-```
-
 ## Usage
 
 ```bash
-streamlit run main.py
+uv run streamlit run main.py
 ```
