@@ -1,7 +1,7 @@
 from app import run
 
 
-def main():
+def main() -> None:
     """
     Summary
     -------
@@ -10,5 +10,5 @@ def main():
     run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

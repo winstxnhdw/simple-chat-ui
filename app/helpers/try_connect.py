@@ -1,18 +1,14 @@
 from time import sleep
-from typing import Any, Callable, TypeVar
-
-T = TypeVar('T')
-
-Function = Callable[..., T]
+from typing import Callable
 
 
-def wrapper(
-    function: Function[T],
+def wrapper[**P, R](
+    function: Callable[P, R],
     connect_exception: type[Exception],
     retry_delay: float,
-    *args: Any,
-    **kwargs: Any,
-) -> T:
+    *args: P.args,
+    **kwargs: P.kwargs,
+) -> R:
     """
     Summary
     -------
@@ -20,23 +16,34 @@ def wrapper(
 
     Parameters
     ----------
-    function (Wrapper[T]) : the function to wrap
-    connect_exception (Exception) : the exception to catch
-    retry_delay (float) : the delay between retries
+    function (Callable[P, R])
+        the function to wrap
+
+    connect_exception (Exception)
+        the exception to catch
+
+    retry_delay (float)
+        the delay between retries
+
 
     Returns
     -------
-    result (T) : the result of the function
+    result (R)
+        the result of the function
     """
     while True:
         try:
             return function(*args, **kwargs)
 
-        except connect_exception:
+        except connect_exception:  # noqa: PERF203
             sleep(retry_delay)
 
 
-def try_connect_decorator(function: Function[T], connect_exception: type[Exception], retry_delay: float) -> Function[T]:
+def try_connect_decorator[**P, R](
+    function: Callable[P, R],
+    connect_exception: type[Exception],
+    retry_delay: float,
+) -> Callable[P, R]:
     """
     Summary
     -------
@@ -44,20 +51,29 @@ def try_connect_decorator(function: Function[T], connect_exception: type[Excepti
 
     Parameters
     ----------
-    function (Wrapper[T]) : the function to wrap
-    connect_exception (Exception) : the exception to catch
-    retry_delay (float) : the delay between retries
+    function (Callable[P, R])
+        the function to wrap
+
+    connect_exception (Exception)
+        the exception to catch
+
+    retry_delay (float)
+        the delay between retries
+
 
     Returns
     -------
-    wrapper (Wrapper[T]) : the wrapped function
+    wrapper (Callable[P, R])
+        the wrapped function
     """
     return lambda *args, **kwargs: wrapper(function, connect_exception, retry_delay, *args, **kwargs)
 
 
-def try_connect(
-    *, connect_exception: type[Exception] = Exception, retry_delay: float = 1.0
-) -> Callable[[Function[T]], Function[T]]:
+def try_connect[**P, R](
+    *,
+    connect_exception: type[Exception] = Exception,
+    retry_delay: float = 1.0,
+) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """
     Summary
     -------
@@ -65,11 +81,16 @@ def try_connect(
 
     Parameters
     ----------
-    connect_exception (Exception?) : the exception to catch
-    retry_delay (float?) : the delay between retries
+    connect_exception (Exception?)
+        the exception to catch
+
+    retry_delay (float?)
+        the delay between retries
+
 
     Returns
     -------
-    decorator (Callable[[Wrapper[T]], Wrapper[T]]) : the decorator
+    decorator (Callable[[Callable[P, R]], Callable[P, R]])
+        the decorator
     """
     return lambda function: try_connect_decorator(function, connect_exception, retry_delay)

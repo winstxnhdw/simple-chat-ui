@@ -1,46 +1,25 @@
-[tool.pylint.format]
-good-names = ["x", "y", "z", "id", "ok"]
+[project]
+name = "simple-chat-ui"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+dependencies = ["h2>=4.2.0", "httpx>=0.28.1", "httpx-sse>=0.4.0", "streamlit>=1.44.1"]
 
-[tool.pylint.messages_control]
-disable = [
-    "missing-module-docstring",
-    "no-name-in-module",
-    "useless-import-alias",
-    "line-too-long",
-    "too-many-arguments",
-    "too-few-public-methods",
-    "too-many-instance-attributes",
-    "unnecessary-ellipsis",
-    "too-many-positional-arguments",
-]
-
-[tool.pyright]
-reportUnknownVariableType = false
-reportUnknownMemberType = false
-reportMissingTypeStubs = false
+[dependency-groups]
+dev = ["nodejs-wheel-binaries>=22.14.0", "pyright>=1.1.399", "ruff>=0.11.4"]
 
 [tool.ruff]
 line-length = 120
 
-[tool.ruff.format]
-quote-style = "single"
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["D100", "D104", "D203", "D205", "D212", "D400", "D413", "D415", "D417", "TC001", "PLR0913", "PLC0414"]
 
-[tool.poetry]
-name = "simple-chat-ui"
-version = "0.1.0"
-description = ""
-authors = ["winstxnhdw <you@example.com>"]
-readme = "README.md"
-package-mode = false
+[tool.ruff.lint.flake8-annotations]
+suppress-dummy-args = true
 
-[tool.poetry.dependencies]
-python = "^3.12"
-streamlit = "^1.44.1"
-httpx = "^0.28.1"
-h2 = "^4.2.0"
-httpx-sse = "^0.4.0"
-
-[tool.poetry.group.dev.dependencies]
-pyright = "^1.1.398"
-pylint = "^3.3.6"
-ruff = "^0.11.4"
+[tool.pyright]
+typeCheckingMode = "strict"
+reportUnknownVariableType = false
+reportUnknownMemberType = false
+reportMissingTypeStubs = false

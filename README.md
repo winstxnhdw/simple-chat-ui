@@ -1,9 +1,7 @@
 # simple-chat-ui
 
-[![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/PyCQA/pylint)
 [![main.yml](https://github.com/winstxnhdw/simple-chat-ui/actions/workflows/main.yml/badge.svg)](https://github.com/winstxnhdw/simple-chat-ui/actions/workflows/main.yml)
 [![formatter.yml](https://github.com/winstxnhdw/simple-chat-ui/actions/workflows/formatter.yml/badge.svg)](https://github.com/winstxnhdw/simple-chat-ui/actions/workflows/formatter.yml)
-[![dependabot.yml](https://github.com/winstxnhdw/simple-chat-ui/actions/workflows/dependabot.yml/badge.svg)](https://github.com/winstxnhdw/simple-chat-ui/actions/workflows/dependabot.yml)
 
 A simple chat UI for [Examplify](https://github.com/winstxnhdw/Examplify), built reluctantly with [Streamlit](https://streamlit.io/) 🤮
 

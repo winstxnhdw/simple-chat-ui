@@ -1,6 +1,6 @@
 from typing import Literal, TypedDict
 
-type Role = Literal['user', 'assistant']
+type Role = Literal["user", "assistant"]
 
 
 class Message(TypedDict):
@@ -13,6 +13,7 @@ class Message(TypedDict):
     ----------
     role (Role) : the role of the message (user or assistant)
     content (str) : the content of the message
+
     """
 
     role: Role

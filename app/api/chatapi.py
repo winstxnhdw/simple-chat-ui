@@ -1,4 +1,5 @@
-from typing import Iterator, Protocol
+from collections.abc import Iterator
+from typing import Protocol
 
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 
@@ -26,7 +27,17 @@ class ChatAPI(Protocol):
         delete all chats
     """
 
-    def __init__(self, base_url: str): ...
+    def __init__(self, base_url: str) -> None:
+        """
+        Summary
+        -------
+        initialises the API
+
+        Parameters
+        ----------
+        base_url (str)
+            the base URL of the API
+        """
 
     def get_chat_history(self, chat_id: int) -> list[Message]:
         """
@@ -36,15 +47,18 @@ class ChatAPI(Protocol):
 
         Parameters
         ----------
-        chat_id (int) : the chat ID
+        chat_id (int)
+            the chat ID
+
 
         Returns
         -------
-        list[Message] : the chat history
+        chat_history (list[Message])
+            the chat history
         """
         ...
 
-    def query(self, chat_id: int, query: str, search_size: int, store_query: bool) -> Iterator[str]:
+    def query(self, chat_id: int, query: str, search_size: int, *, store_query: bool) -> Iterator[str]:
         """
         Summary
         -------
@@ -52,14 +66,22 @@ class ChatAPI(Protocol):
 
         Parameters
         ----------
-        chat_id (int) : the chat ID
-        query (str) : the query to send
-        search_size (int) : the search size
-        store_query (bool) : whether to store the query
+        chat_id (int)
+            the chat ID
+
+        query (str)
+            the query to send
+
+        search_size (int)
+            the search size
+
+        store_query (bool)
+            whether to store the query
 
         Returns
         -------
-        list[Message]: the messages returned
+        response (list[Message])
+            the messages returned
         """
         ...
 
@@ -71,15 +93,18 @@ class ChatAPI(Protocol):
 
         Parameters
         ----------
-        file (UploadedFile) : the image file to convert
+        file (UploadedFile)
+            the image file to convert
+
 
         Returns
         -------
-        text (str) : the text in the image
+        text (str)
+            the text in the image
         """
         ...
 
-    def clear_chat(self, chat_id: int):
+    def clear_chat(self, chat_id: int) -> None:
         """
         Summary
         -------
@@ -87,10 +112,11 @@ class ChatAPI(Protocol):
 
         Parameters
         ----------
-        chat_id (int) : the chat ID
+        chat_id (int)
+            the chat ID
         """
 
-    def delete_all_chats(self):
+    def delete_all_chats(self) -> None:
         """
         Summary
         -------

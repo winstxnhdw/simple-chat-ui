@@ -4,7 +4,7 @@ from app.api import ChatAPI
 from app.types import Chats, SessionState
 
 
-def render_delete_all_button(api: ChatAPI, chats: Chats, state: SessionState):
+def render_delete_all_button(api: ChatAPI, chats: Chats, state: SessionState) -> None:
     """
     Summary
     -------
@@ -12,21 +12,26 @@ def render_delete_all_button(api: ChatAPI, chats: Chats, state: SessionState):
 
     Parameters
     ----------
-    api (ChatAPI) : the API object
-    chats (Chats) : the sequence of chats
-    state (SessionState) : the Streamlit session state
+    api (ChatAPI)
+        the API object
+
+    chats (Chats)
+        the sequence of chats
+
+    state (SessionState)
+        the Streamlit session state
     """
-    if not button('Delete all', key='delete_all_chats', type='primary', use_container_width=True):
+    if not button("Delete all", key="delete_all_chats", type="primary", use_container_width=True):
         return
 
     api.delete_all_chats()
     chats.clear()
     chats[1] = []
-    state['current_chat'] = 1
+    state["current_chat"] = 1
     rerun()
 
 
-def render_add_chat_button(chats: Chats, state: SessionState):
+def render_add_chat_button(chats: Chats, state: SessionState) -> None:
     """
     Summary
     -------
@@ -34,19 +39,22 @@ def render_add_chat_button(chats: Chats, state: SessionState):
 
     Parameters
     ----------
-    chats (Chats) : the sequence of chats
-    state (SessionState) : the Streamlit session state
+    chats (Chats)
+        the sequence of chats
+
+    state (SessionState)
+        the Streamlit session state
     """
-    if not button('＋', key='add_chat', use_container_width=True):
+    if not button("＋", key="add_chat", use_container_width=True):  # noqa: RUF001
         return
 
     number_of_chats = len(chats)
     chats[number_of_chats + 1] = []
-    state['current_chat'] = number_of_chats
+    state["current_chat"] = number_of_chats
     rerun()
 
 
-def render_chat_tab(chat: int, state: SessionState):
+def render_chat_tab(chat: int, state: SessionState) -> None:
     """
     Summary
     -------
@@ -54,17 +62,20 @@ def render_chat_tab(chat: int, state: SessionState):
 
     Parameters
     ----------
-    chat (int) : the current chat identifier
-    state (SessionState) : the Streamlit session state
+    chat (int)
+        the current chat identifier
+
+    state (SessionState)
+        the Streamlit session state
     """
-    if not button(str(chat), key=f'chat_tab_{chat}', use_container_width=True):
+    if not button(str(chat), key=f"chat_tab_{chat}", use_container_width=True):
         return
 
-    state['current_chat'] = chat
+    state["current_chat"] = chat
     rerun()
 
 
-def render_tabs(api: ChatAPI, state: SessionState):
+def render_tabs(api: ChatAPI, state: SessionState) -> None:
     """
     Summary
     -------
@@ -72,10 +83,13 @@ def render_tabs(api: ChatAPI, state: SessionState):
 
     Parameters
     ----------
-    api (ChatAPI) : the API object
-    state (SessionState) : the Streamlit session state
+    api (ChatAPI)
+        the API object
+
+    state (SessionState)
+        the Streamlit session state
     """
-    chats = state['chats']
+    chats = state["chats"]
 
     for chat in chats:
         render_chat_tab(chat, state)
@@ -84,7 +98,7 @@ def render_tabs(api: ChatAPI, state: SessionState):
     render_delete_all_button(api, chats, state)
 
 
-def render_sidebar(api: ChatAPI, state: SessionState):
+def render_sidebar(api: ChatAPI, state: SessionState) -> None:
     """
     Summary
     -------
@@ -92,9 +106,12 @@ def render_sidebar(api: ChatAPI, state: SessionState):
 
     Parameters
     ----------
-    api (ChatAPI) : the API object
-    state (SessionState) : the Streamlit session state
+    api (ChatAPI)
+        the API object
+
+    state (SessionState)
+        the Streamlit session state
     """
     with sidebar:
-        title('Chats')
+        title("Chats")
         render_tabs(api, state)
