@@ -6,7 +6,7 @@ readme = "README.md"
 dependencies = ["h2>=4.2.0", "httpx>=0.28.1", "httpx-sse>=0.4.0", "streamlit>=1.44.1"]
 
 [dependency-groups]
-dev = ["nodejs-wheel-binaries>=22.14.0", "pyright>=1.1.399", "ruff>=0.11.5"]
+dev = ["nodejs-wheel-binaries>=22.14.0", "pyright>=1.1.399", "ruff>=0.11.6"]
 
 [tool.ruff]
 line-length = 120
