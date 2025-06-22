@@ -1,5 +1,5 @@
+from collections.abc import Callable
 from time import sleep
-from typing import Callable
 
 
 def wrapper[**P, R](
@@ -35,7 +35,7 @@ def wrapper[**P, R](
         try:
             return function(*args, **kwargs)
 
-        except connect_exception:  # noqa: PERF203
+        except connect_exception:
             sleep(retry_delay)
 
 
