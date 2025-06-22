@@ -4,10 +4,10 @@ version = "0.1.0"
 description = ""
 readme = "README.md"
 requires-python = "~=3.13"
-dependencies = ["h2>=4.2.0", "httpx>=0.28.1", "httpx-sse>=0.4.0", "streamlit>=1.45.1"]
+dependencies = ["h2>=4.2.0", "httpx>=0.28.1", "httpx-sse>=0.4.0", "streamlit>=1.46.0"]
 
 [dependency-groups]
-dev = ["nodejs-wheel-binaries>=22.16.0", "pyright>=1.1.401", "ruff>=0.11.12"]
+dev = ["nodejs-wheel-binaries>=22.16.0", "pyright>=1.1.402", "ruff>=0.12.0"]
 
 [tool.ruff]
 line-length = 120
