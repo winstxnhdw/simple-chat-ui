@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 readme = "README.md"
 requires-python = "~=3.14"
-dependencies = ["h2>=4.3.0", "httpx>=0.28.1", "httpx-sse>=0.4.3", "streamlit>=1.50.0"]
+dependencies = ["h2>=4.3.0", "httpx>=0.28.1", "httpx-sse>=0.4.3", "streamlit>=1.51.0"]
 
 [dependency-groups]
 dev = ["nodejs-wheel-binaries>=22.20.0", "pyright>=1.1.407", "ruff>=0.14.2"]
