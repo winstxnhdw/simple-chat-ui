@@ -55,11 +55,11 @@ wheels = [
 
 [[package]]
 name = "cachetools"
-version = "7.0.6"
+version = "7.1.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/76/7b/1755ed2c6bfabd1d98b37ae73152f8dcf94aa40fee119d163c19ed484704/cachetools-7.0.6.tar.gz", hash = "sha256:e5d524d36d65703a87243a26ff08ad84f73352adbeafb1cde81e207b456aaf24", size = 37526, upload-time = "2026-04-20T19:02:23.289Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d0/1d/7cbe8f84352789be3dcbb1239f425984f353efa253deeeff38af600870b3/cachetools-7.1.0.tar.gz", hash = "sha256:ea5406e92956f9006b121f8032177c6b02cc5f9a488d1e53b2e4d9cb5aae15c6", size = 40085, upload-time = "2026-05-01T21:20:04.649Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fe/c4/cf76242a5da1410917107ff14551764aa405a5fd10cd10cf9a5ca8fa77f4/cachetools-7.0.6-py3-none-any.whl", hash = "sha256:4e94956cfdd3086f12042cdd29318f5ced3893014f7d0d059bf3ead3f85b7f8b", size = 13976, upload-time = "2026-04-20T19:02:21.187Z" },
+    { url = "https://files.pythonhosted.org/packages/87/42/e09974bc74ea2791f985dff3d7f06065d11abcc31da6c46fc5f83046516e/cachetools-7.1.0-py3-none-any.whl", hash = "sha256:05afd1d309309e7c8971db462b4cf516d93fa8c9aea1b906e26e61b4399d0d82", size = 16748, upload-time = "2026-05-01T21:20:02.879Z" },
 ]
 
 [[package]]
@@ -147,14 +147,14 @@ wheels = [
 
 [[package]]
 name = "gitpython"
-version = "3.1.47"
+version = "3.1.49"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "gitdb" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c1/bd/50db468e9b1310529a19fce651b3b0e753b5c07954d486cba31bbee9a5d5/gitpython-3.1.47.tar.gz", hash = "sha256:dba27f922bd2b42cb54c87a8ab3cb6beb6bf07f3d564e21ac848913a05a8a3cd", size = 216978, upload-time = "2026-04-22T02:44:44.059Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e1/63/210aaa302d6a0a78daa67c5c15bbac2cad361722841278b0209b6da20855/gitpython-3.1.49.tar.gz", hash = "sha256:42f9399c9eb33fc581014bedd76049dfbaf6375aa2a5754575966387280315e1", size = 219367, upload-time = "2026-04-29T00:31:20.478Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f2/c5/a1bc0996af85757903cf2bf444a7824e68e0035ce63fb41d6f76f9def68b/gitpython-3.1.47-py3-none-any.whl", hash = "sha256:489f590edfd6d20571b2c0e72c6a6ac6915ee8b8cd04572330e3842207a78905", size = 209547, upload-time = "2026-04-22T02:44:41.271Z" },
+    { url = "https://files.pythonhosted.org/packages/fd/6f/b842bfa6f21d6f87c57f9abf7194225e55279d96d869775e19e9f7236fc5/gitpython-3.1.49-py3-none-any.whl", hash = "sha256:024b0422d7f84d15cd794844e029ffebd4c5d42a7eb9b936b458697ef550a02c", size = 212190, upload-time = "2026-04-29T00:31:18.412Z" },
 ]
 
 [[package]]
