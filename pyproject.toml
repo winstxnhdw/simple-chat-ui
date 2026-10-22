@@ -3,11 +3,11 @@ name = "simple-chat-ui"
 version = "0.1.0"
 description = ""
 readme = "README.md"
-requires-python = "~=3.14"
-dependencies = ["h2>=4.4.1", "httpx>=0.28.1", "httpx-sse>=0.4.3", "streamlit>=1.64.0"]
+requires-python = "~=3.15"
+dependencies = ["h2>=4.4.1", "httpx>=0.28.1", "httpx-sse>=0.4.3", "streamlit>=1.66.1"]
 
 [dependency-groups]
-dev = ["nodejs-wheel-binaries>=24.19.0", "pyright>=1.1.414", "ruff>=0.16.9"]
+dev = ["nodejs-wheel-binaries>=24.19.0", "pyright>=1.1.414", "ruff>=0.17.2"]
 
 [tool.ruff]
 line-length = 120
